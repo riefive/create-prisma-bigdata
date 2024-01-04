@@ -30,12 +30,37 @@ mocker()
     .addGenerator('faker', faker)
     .schema('post', postSchema, numbers).build().then(async (data) => {
         try {
+            const isMulti = false;
             console.time('init');
-            const posts = await prisma.post.createMany({
-                data: data?.post as any,
-                skipDuplicates: true
-            });
-            console.log(posts);
+            const postRaws = data?.post || [];
+            if (isMulti) { // with multi insert normal
+                const posts = await prisma.post.createMany({
+                    data: postRaws as any,
+                    skipDuplicates: true
+                });
+                console.log(`post saved ${posts} => ${numbers}`);
+            } else { // with chunk arrays
+                const isMany = true;
+                const limit = 1000;
+                let i = 0;
+                while(i < postRaws.length) {
+                    const items = postRaws.slice(i, i + limit);
+                    if (isMany) {
+                        await prisma.post.createMany({
+                            data: items as any,
+                            skipDuplicates: true
+                        });
+                    } else {
+                        for (let index = 0; index < items.length; index++) {
+                            await prisma.post.create({
+                                data: items[index]
+                            });
+                        }
+                    }
+                    i = i + items.length;
+                }
+                console.log(`post times ${i} => ${numbers}`);
+            }
             await prisma.$disconnect();
             console.timeEnd('init');
         } catch (error) {
