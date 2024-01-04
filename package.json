@@ -4,14 +4,23 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "db:init": "npx prisma init --datasource-provider mysql",
+    "db:pull": "npx prisma db pull",
+    "db:generate": "npx prisma generate",
+    "db:migrate": "npx prisma migrate dev --name init",
+    "db:watch": "npx prisma studio",
+    "start": "npx ts-node init.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@faker-js/faker": "^8.3.1",
+    "@prisma/client": "^5.7.1",
     "mocker-data-generator": "^3.0.3",
     "tslib": "^2.6.2"
+  },
+  "devDependencies": {
+    "prisma": "^5.7.1"
   }
 }
