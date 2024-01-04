@@ -9,6 +9,7 @@
     "db:generate": "npx prisma generate",
     "db:migrate": "npx prisma migrate dev --name init",
     "db:watch": "npx prisma studio",
+    "start:query": "npx ts-node find-query.ts",
     "start": "npx ts-node init.ts"
   },
   "keywords": [],
