@@ -8,7 +8,7 @@ async function main() {
     const postDataTotal = await prisma.posts.count();
     const postPageTotal = Math.ceil(postDataTotal / limit);
     let i = 0;
-    const isCursor = false;
+    const isCursor = true;
     while (i < postPageTotal) {
         let lastId = 1;
         const options: any = {

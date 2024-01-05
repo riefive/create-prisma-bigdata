@@ -6,7 +6,14 @@ const prisma = new PrismaClient();
 
 let postSchema = {
     slug: {
-        faker: 'lorem.slug()'
+        function: () => {
+            const isRandom = false;
+            if (isRandom) {
+                const randomId = (Math.random() + 1).toString(36).substring(7);
+                return faker.lorem.slug() + ''.concat(`-${randomId}`);
+            }
+            return faker.lorem.slug();
+        }
     },
     title: {
         faker: 'lorem.sentence()'
@@ -58,8 +65,8 @@ mocker()
                         }
                     }
                     i = i + items.length;
+                    console.log(`post times ${i} => ${numbers}`);
                 }
-                console.log(`post times ${i} => ${numbers}`);
             }
             await prisma.$disconnect();
             console.timeEnd('init');
