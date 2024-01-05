@@ -1,9 +1,13 @@
+import { argv } from 'process';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
+const length = argv.length || 0;
+const menuParams = length === 3 ? argv[length - 1] : '--menu=normal';
+
 async function main() {
-    console.time('find');
+    console.time('command-find');
     const limit = 10000;
     const postDataTotal = await prisma.posts.count();
     const postPageTotal = Math.ceil(postDataTotal / limit);
@@ -32,7 +36,7 @@ async function main() {
         i++;
     }
     console.log(JSON.stringify({ limit, total: postDataTotal, pageTotal: postPageTotal }));
-    console.timeEnd('find');
+    console.timeEnd('command-find');
 }
 
 main()
@@ -43,4 +47,4 @@ main()
         console.error(error);
         await prisma.$disconnect();
         process.exit(1);
-    })
+    });

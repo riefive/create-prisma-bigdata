@@ -13,8 +13,11 @@
     "db:watch": "npx prisma studio",
     "start:find": "npx ts-node find-query.ts",
     "start:find-cursor": "npx ts-node find-query-cursor.ts",
-    "start:init": "npx ts-node init.ts",
-    "start": "npx ts-node init.ts"
+    "start:create:type1": "npx ts-node command-create.ts --size=15k",
+    "start:create:type2": "npx ts-node command-create.ts --size=100k",
+    "start:create:type3": "npx ts-node command-create.ts --size=1m",
+    "start:delete": "npx ts-node command-delete.ts",
+    "start": "npx ts-node command-create.ts"
   },
   "keywords": [],
   "author": "",

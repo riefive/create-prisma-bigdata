@@ -1,5 +1,6 @@
 import mocker from 'mocker-data-generator';
 import { faker } from '@faker-js/faker';
+import { argv } from 'process';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -31,14 +32,34 @@ let postSchema = {
     },
 };
 
-const numbers = Math.pow(10, 5); // 15 | 150000 | Math.pow(10, 5) | Math.pow(10, 6) 
+const length = argv.length || 0;
+const sizeParams = length === 3 ? argv[length - 1] : '--size=15';
+let numbers = 1;
+
+switch (sizeParams) {
+    case '--size=15':
+        numbers = 15;
+        break;
+    case '--size=15k':
+            numbers = 15000;
+            break;
+    case '--size=100k':
+        numbers = Math.pow(10, 5);
+        break;
+    case '--size=1m':
+        numbers = Math.pow(10, 6);
+        break;
+    default: 
+        numbers = 1;
+        break;
+}
 
 mocker()
     .addGenerator('faker', faker)
     .schema('posts', postSchema, numbers).build().then(async (data) => {
         try {
             const isMulti = false;
-            console.time('init');
+            console.time('command-create');
             const postRaws = data?.posts || [];
             if (isMulti) { // with multi insert normal
                 const posts = await prisma.posts.createMany({
@@ -69,7 +90,7 @@ mocker()
                 }
             }
             await prisma.$disconnect();
-            console.timeEnd('init');
+            console.timeEnd('command-create');
         } catch (error) {
             console.error(error);
             await prisma.$disconnect()
