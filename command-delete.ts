@@ -7,6 +7,7 @@ async function main() {
     const result = await prisma.posts.deleteMany({
         where: { id: { gt: 0 } }
     });
+    await prisma.$queryRaw`ALTER TABLE posts AUTO_INCREMENT = 0`;
     console.log(`total: ${result?.count || 0}`);
     console.timeEnd('command-delete');
 }

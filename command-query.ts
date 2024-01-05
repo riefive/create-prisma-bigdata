@@ -50,7 +50,7 @@ async function main() {
                     id: lastId,
                 },
             });
-        } else if (menu === 'optimize') {
+        } else if (menu === 'byid') {
             Object.assign(options, {
                 where: { id: { gte: lastId }},
             });
@@ -65,9 +65,8 @@ async function main() {
                 console.log('first post:');
                 console.log(firstPost);
             }
-            console.log('last post id:', lastPost.id);
+            console.log(`last post id: ${lastId} - (${posts.length})`);
         }
-        console.log(posts.length);
         i++;
     }
     console.log(JSON.stringify({ limit, total: postDataTotal, pageTotal: postPageTotal }));

@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 let postSchema = {
     slug: {
         function: () => {
-            const isRandom = false;
+            const isRandom = true;
             if (isRandom) {
                 const randomId = (Math.random() + 1).toString(36).substring(7);
                 return faker.lorem.slug() + ''.concat(`-${randomId}`);
@@ -86,9 +86,11 @@ mocker()
                         }
                     }
                     i = i + items.length;
-                    console.log(`post times ${i} => ${numbers}`);
+                    console.log(`post times ${i} => ${limit}`);
                 }
             }
+            const postDataTotal = await prisma.posts.count();
+            console.log(`Total posts: ${postDataTotal}`);
             await prisma.$disconnect();
             console.timeEnd('command-create');
         } catch (error) {
