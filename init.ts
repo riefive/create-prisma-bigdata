@@ -24,7 +24,7 @@ let postSchema = {
     },
 };
 
-const numbers = 15; // 15 | 150000 | Math.pow(10, 6) 
+const numbers = Math.pow(10, 5); // 15 | 150000 | Math.pow(10, 5) | Math.pow(10, 6) 
 
 mocker()
     .addGenerator('faker', faker)
