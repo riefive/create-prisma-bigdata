@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 async function main() {
     console.time('find');
-    const posts = await prisma.post.findMany({
+    const posts = await prisma.posts.findMany({
         select: {
             id: true,
             slug: true,

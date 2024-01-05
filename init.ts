@@ -24,17 +24,17 @@ let postSchema = {
     },
 };
 
-const numbers = 150000; // 15 | 150000 | Math.pow(10, 6) 
+const numbers = 15; // 15 | 150000 | Math.pow(10, 6) 
 
 mocker()
     .addGenerator('faker', faker)
-    .schema('post', postSchema, numbers).build().then(async (data) => {
+    .schema('posts', postSchema, numbers).build().then(async (data) => {
         try {
             const isMulti = false;
             console.time('init');
-            const postRaws = data?.post || [];
+            const postRaws = data?.posts || [];
             if (isMulti) { // with multi insert normal
-                const posts = await prisma.post.createMany({
+                const posts = await prisma.posts.createMany({
                     data: postRaws as any,
                     skipDuplicates: true
                 });
@@ -46,13 +46,13 @@ mocker()
                 while(i < postRaws.length) {
                     const items = postRaws.slice(i, i + limit);
                     if (isMany) {
-                        await prisma.post.createMany({
+                        await prisma.posts.createMany({
                             data: items as any,
                             skipDuplicates: true
                         });
                     } else {
                         for (let index = 0; index < items.length; index++) {
-                            await prisma.post.create({
+                            await prisma.posts.create({
                                 data: items[index]
                             });
                         }

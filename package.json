@@ -8,6 +8,8 @@
     "db:pull": "npx prisma db pull",
     "db:generate": "npx prisma generate",
     "db:migrate": "npx prisma migrate dev --name init",
+    "db:migrate:create": "npx prisma migrate dev --create-only --name init",
+    "db:reset": "npx prisma db push --force-reset",
     "db:watch": "npx prisma studio",
     "start:query": "npx ts-node find-query.ts",
     "start": "npx ts-node init.ts"
